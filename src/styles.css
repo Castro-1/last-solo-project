@@ -5,3 +5,12 @@ html {
 body {
   font-family: "Karla", sans-serif;
 }
+
+.main-container {
+  width: 550px;
+  height: 550px;
+  padding: 1.8rem;
+  background-image: url("./images/main-bg.png");
+  background-repeat: no-repeat;
+  background-size: 550px;
+}
