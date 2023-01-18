@@ -1,4 +1,5 @@
 import React from "react";
+import { nanoid } from "nanoid";
 
 export default function Option(props) {
   const { value, name, question, handleChange, submitted } = props;
@@ -17,10 +18,11 @@ export default function Option(props) {
     }
     return classes;
   }
+  const id = nanoid();
   return (
     <div>
       <input
-        id={value}
+        id={id}
         type="radio"
         value={value}
         name={name}
@@ -29,7 +31,7 @@ export default function Option(props) {
         className="radio-input"
       />
       <div>
-        <label className={optionClasses()} htmlFor={value}>
+        <label className={optionClasses()} htmlFor={id}>
           {value}
         </label>
       </div>

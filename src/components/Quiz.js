@@ -1,12 +1,17 @@
 import React from "react";
 import Question from "./Question";
 import { nanoid } from "nanoid";
+import ReactConfetti from "react-confetti";
 
 export default function Quiz() {
   const [quiz, setQuiz] = React.useState({
     answered: false,
     submitted: false,
     data: [],
+  });
+  const [highestScore, setHighestScore] = React.useState({
+    play: false,
+    score: 0,
   });
 
   React.useEffect(() => {
@@ -16,16 +21,25 @@ export default function Quiz() {
       // console.log(data);
       setQuiz((prevQuiz) => ({
         ...prevQuiz,
+        answered: false,
+        submitted: false,
         data: data.results.map((question) => ({
-          question: question.question,
-          correct: question.correct_answer,
+          question: question.question
+            .replace(/&quot;/g, '"')
+            .replace(/&#039;/g, "'"),
+          correct: question.correct_answer
+            .replace(/&quot;/g, '"')
+            .replace(/&#039;/g, "'"),
           chosen: "",
           incorrect: question.incorrect_answers,
         })),
       }));
     }
+    // console.log("yessir");
     getQuiz();
-  }, []);
+  }, [highestScore]);
+
+  console.log(quiz);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -58,10 +72,19 @@ export default function Quiz() {
   }
 
   function submitQuiz() {
+    if (quiz.submitted) {
+      setHighestScore((prevScore) => {
+        const score = Score();
+        return {
+          score: prevScore.score > score ? prevScore : score,
+          play: !prevScore.play,
+        };
+      });
+    }
     if (!quiz.answered) {
       alert("Please answer all the questions");
     } else {
-      alert("Submitted!");
+      // alert("Submitted!");
       setQuiz((prevQuiz) => ({ ...prevQuiz, submitted: true }));
     }
   }
@@ -73,16 +96,19 @@ export default function Quiz() {
         count++;
       }
     });
-    return <p>You scored {count}/5</p>;
+    return count;
   }
 
   return (
     <div className="quiz">
+      {Score() === 5 && quiz.submitted && <ReactConfetti recycle={false} />}
       <div className="quiz-questions">{getQuestions()}</div>
       <div className="quiz-submit">
-        {quiz.submitted && <Score />}
+        {quiz.submitted && (
+          <p className="question">You scored {Score()}/5 correct answers</p>
+        )}
         <button className="check-button" onClick={submitQuiz}>
-          {quiz.submitted ? "Try Again" : "Check answers"}
+          {quiz.submitted ? "Play again" : "Check answers"}
         </button>
       </div>
     </div>

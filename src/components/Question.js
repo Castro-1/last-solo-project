@@ -6,7 +6,9 @@ export default function Question(props) {
 
   function options() {
     const options = [question.correct];
-    question.incorrect.forEach((answer) => options.push(answer));
+    question.incorrect.forEach((answer) =>
+      options.push(answer.replace(/&quot;/g, '"').replace(/&#039;/g, "'"))
+    );
     options.sort().reverse();
 
     return options.map((option) => (
