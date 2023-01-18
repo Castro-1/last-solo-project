@@ -9,20 +9,42 @@ export default function Quiz() {
     async function getQuiz() {
       const res = await fetch("https://opentdb.com/api.php?amount=5");
       const data = await res.json();
-      setQuiz(data.results);
+      setQuiz(
+        data.results.map((question) => ({
+          question: question.question,
+          correct: question.correct_answer,
+          chosen: "",
+          incorrect: question.incorrect_answers,
+        }))
+      );
     }
     getQuiz();
   }, []);
 
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setQuiz((prevQuiz) => {
+      return prevQuiz.map((question) => {
+        return question.question === name
+          ? { ...question, chosen: value }
+          : question;
+      });
+    });
+  }
+
   function getQuestions() {
     return quiz.map((question) => (
-      <Question question={question} key={nanoid()} />
+      <Question
+        question={question}
+        key={nanoid()}
+        handleChange={handleChange}
+      />
     ));
   }
 
   return (
     <div className="quiz">
-      <div class="quiz-questions">{getQuestions()}</div>
+      <div className="quiz-questions">{getQuestions()}</div>
       <button className="check-button">Check answers</button>
     </div>
   );

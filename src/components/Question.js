@@ -2,15 +2,23 @@ import React from "react";
 import Option from "./Option";
 
 export default function Question(props) {
-  const { question } = props;
-  function options() {
-    const options = [question.correct_answer];
-    question.incorrect_answers.forEach((answer) => options.push(answer));
-    if (options.length > 2) options.sort();
+  const { question, handleChange } = props;
 
-    return options.map((option) => <Option key={option} value={option} />);
+  function options() {
+    const options = [question.correct];
+    question.incorrect.forEach((answer) => options.push(answer));
+    options.sort().reverse();
+
+    return options.map((option) => (
+      <Option
+        key={option}
+        value={option}
+        name={question.question}
+        question={question}
+        handleChange={handleChange}
+      />
+    ));
   }
-  console.log(question);
   return (
     <div className="question-container">
       <p className="question">{question.question}</p>
