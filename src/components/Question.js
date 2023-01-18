@@ -2,7 +2,7 @@ import React from "react";
 import Option from "./Option";
 
 export default function Question(props) {
-  const { question, handleChange } = props;
+  const { question, handleChange, submitted } = props;
 
   function options() {
     const options = [question.correct];
@@ -16,6 +16,7 @@ export default function Question(props) {
         name={question.question}
         question={question}
         handleChange={handleChange}
+        submitted={submitted}
       />
     ));
   }

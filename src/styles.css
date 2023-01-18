@@ -89,6 +89,7 @@ hr {
 .wrong {
   border: none;
   padding: 0.5rem 1rem;
+  cursor: default;
 }
 
 .selected {
@@ -107,6 +108,7 @@ hr {
 
 .not-selected {
   opacity: 0.5;
+  cursor: default;
 }
 
 .check-button {
@@ -123,4 +125,11 @@ hr {
   position: fixed;
   opacity: 0;
   pointer-events: none;
+}
+
+.quiz-submit {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-items: center;
 }
