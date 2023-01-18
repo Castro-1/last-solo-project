@@ -39,7 +39,7 @@ export default function Quiz() {
     getQuiz();
   }, [highestScore]);
 
-  console.log(quiz);
+  // console.log(quiz);
 
   function handleChange(event) {
     const { name, value } = event.target;
